@@ -1,7 +1,8 @@
 ﻿namespace Client.Pages
 {
-    using Microsoft.OneDrive.Sdk;
+    using OneDrive;
     using System;
+    using System.Diagnostics;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
 
@@ -35,11 +36,17 @@
         /// <param name="e">The triggered event.</param>
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var client = ((App)Application.Current).OneDriveClient = OneDriveClientExtensions.GetUniversalClient(
-                Scopes,
-                RedirectUri);
-
-            await client.AuthenticateAsync();
+            ((App)Application.Current).Crap = new PieceOfCrap();
+            
+            try
+            {
+                var test = await ((App)Application.Current).Crap.GetDrive();
+            }
+            catch (UnauthenticatedException error)
+            {
+                Debug.WriteLine($"Error: {error.Message}");
+                throw;
+            }
 
             Frame.Navigate(typeof(FirstRun));
         }

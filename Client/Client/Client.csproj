@@ -102,6 +102,8 @@
     </Compile>
     <Compile Include="Media\CameraReceiver.cs" />
     <Compile Include="Media\Frequencies.cs" />
+    <Compile Include="OneDrive\PieceOfCrap.cs" />
+    <Compile Include="OneDrive\UnauthenticatedException.cs" />
     <Compile Include="Pages\FirstRun.xaml.cs">
       <DependentUpon>FirstRun.xaml</DependentUpon>
     </Compile>
