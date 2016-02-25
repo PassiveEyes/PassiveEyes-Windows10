@@ -36,17 +36,9 @@
         /// <param name="e">The triggered event.</param>
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            ((App)Application.Current).Crap = new PieceOfCrap();
-            
-            try
-            {
-                var test = await ((App)Application.Current).Crap.GetDrive();
-            }
-            catch (UnauthenticatedException error)
-            {
-                Debug.WriteLine($"Error: {error.Message}");
-                throw;
-            }
+            var crap = ((App)Application.Current).Crap = new PieceOfCrap();
+
+            await PieceOfCrap.RunAction(async () => await crap.GetDrive());
 
             Frame.Navigate(typeof(FirstRun));
         }
