@@ -364,10 +364,8 @@
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
-    <MainPackageIdentityName>42151JoshGoldberg.AdsTestMediatorMicrosoft</MainPackageIdentityName>
     <MainPackageIdentityName>42151JoshGoldberg.KingOfTheWhat</MainPackageIdentityName>
     <MainPackageIdentityName>42151JoshGoldberg.PhotoDataViewer</MainPackageIdentityName>
-    <MainPackageIdentityName>42151JoshGoldberg.SiteChecker</MainPackageIdentityName>
   </AccountPackageIdentityNames>
   <PackageInfoList LandingUrl="https://dev.windows.com/dashboard/Application?appId=9NBLGGH4PBZH" />
 </StoreAssociation>
