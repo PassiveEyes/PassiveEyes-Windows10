@@ -1,14 +1,23 @@
 ﻿namespace Client.Pages
 {
     using Media;
+    using Microsoft.OneDrive.Sdk;
     using System;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices.WindowsRuntime;
     using System.Threading.Tasks;
     using Windows.Devices.Enumeration;
+    using Windows.Foundation;
+    using Windows.Graphics.Imaging;
     using Windows.Media.Capture;
+    using Windows.Media.MediaProperties;
+    using Windows.Storage;
+    using Windows.Storage.FileProperties;
+    using Windows.Storage.Streams;
     using Windows.System.Display;
+    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Navigation;
 
@@ -69,9 +78,9 @@
         }
 
         /// <summary>
-        /// Initializes 
+        /// Initializes the visual preview of the content stream.
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">The index of the camera input to preview.</param>
         private async Task InitializePreview(int index)
         {
             if (this.PreviewingIndex == index)
@@ -97,11 +106,51 @@
         /// Responds to a receiver indicating an upload should occur.
         /// </summary>
         /// <param name="mediaCapture"></param>
-        /// <returns></returns>
         private async Task OnFiredUpload(MediaCapture mediaCapture)
         {
-            Debug.WriteLine("Uploading!");
-            // ...
+            var fileName = $"Upload-{DateTime.Now.ToFileTimeUtc()}.jpg";
+
+            using (var inputStream = new InMemoryRandomAccessStream())
+            {
+                await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), inputStream);
+                var filePath = await ReencodeAndSavePhotoAsync(fileName, inputStream);
+                
+                //    var item = await ((App)Application.Current).OneDriveClient
+                //        .Drive
+                //        .Root
+                //        .ItemWithPath(filePath)
+                //        .Content
+                //        .Request()
+                //        .PutAsync<Item>(stream);
+            }
+        }
+        
+        /// <summary>
+        /// Applies the given orientation to a photo stream and saves it as a StorageFile.
+        /// </summary>
+        /// <param name="fileName">Name the file will be stored under.</param>
+        /// <param name="stream">The photo stream.</param>
+        /// <returns>The complete path of the file.</returns>
+        private static async Task<string> ReencodeAndSavePhotoAsync(string fileName, IRandomAccessStream stream)
+        {
+            using (var inputStream = stream)
+            {
+                var decoder = await BitmapDecoder.CreateAsync(inputStream);
+
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("SimplePhoto.jpeg", CreationCollisionOption.GenerateUniqueName);
+
+                using (var outputStream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    var encoder = await BitmapEncoder.CreateForTranscodingAsync(outputStream, decoder);
+
+                    var properties = new BitmapPropertySet { { "System.Photo.Orientation", new BitmapTypedValue(PhotoOrientation.Normal, PropertyType.UInt16) } };
+
+                    await encoder.BitmapProperties.SetPropertiesAsync(properties);
+                    await encoder.FlushAsync();
+                }
+
+                return file.Path;
+            }
         }
     }
 }
