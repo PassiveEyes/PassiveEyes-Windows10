@@ -7,29 +7,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <TextBlock
-            FontFamily="Segoe UI Light"
-            FontSize="49"
-            Grid.Row="0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            PassiveEyes
-        </TextBlock>
-
-        <Button 
-            x:Name="LoginButton"
-            Click="LoginButton_Click"
-            Content="Log In :)"
-            FontFamily="Segoe UI Light"
-            FontSize="49"
-            Grid.Row="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"/>
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
+        </Grid.Background>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+            <Image
+                Margin="0 0 0 48"
+                Width="128"
+                Height="128"
+                Source="/Assets/Square44x44Logo.scale-200.png" />
+            <Button 
+                x:Name="LoginButton"
+                Click="LoginButton_Click"
+                Content="Sign In with OneDrive" />
+            <HyperlinkButton
+                x:Name="AboutButton"
+                HorizontalAlignment="Center"
+                Foreground="#ffffffff"
+                Content="About PassiveEyes" />
+        </StackPanel>
     </Grid>
 </Page>

@@ -15,27 +15,32 @@
         {
             this.InitializeComponent();
 
-            this.RefreshMessage();
+            //this.RefreshMessage();
         }
 
-        private void RefreshMessage()
+        private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            if (((App)Application.Current).StorageFolderPath == null)
-            {
-                this.Message.Text = "You haven't used PassiveEyes before. Select where to store photos.";
-            }
-            else
-            {
-                this.Message.Text = "You've used PassiveEyes before. Confirm this is where you want to store photos.";
-                this.StorageFolderPathInput.Text = ((App)Application.Current).StorageFolderPath;
-            }
+            Frame.Navigate(typeof(ViewerPage));
         }
 
-        private void StorageFolderPathInputButton_Click(object sender, RoutedEventArgs e)
-        {
-            ((App)Application.Current).StorageFolderPath = this.StorageFolderPathInput.Text;
+        //private void RefreshMessage()
+        //{
+        //    if (((App)Application.Current).StorageFolderPath == null)
+        //    {
+        //        this.Message.Text = "You haven't used PassiveEyes before. Select where to store photos.";
+        //    }
+        //    else
+        //    {
+        //        this.Message.Text = "You've used PassiveEyes before. Confirm this is where you want to store photos.";
+        //        this.StorageFolderPathInput.Text = ((App)Application.Current).StorageFolderPath;
+        //    }
+        //}
 
-            Frame.Navigate(typeof(RecordingPage));
-        }
+        //private void StorageFolderPathInputButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ((App)Application.Current).StorageFolderPath = this.StorageFolderPathInput.Text;
+
+        //    Frame.Navigate(typeof(RecordingPage));
+        //}
     }
 }

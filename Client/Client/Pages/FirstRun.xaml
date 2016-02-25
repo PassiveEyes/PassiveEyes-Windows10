@@ -7,12 +7,46 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="Message" MinHeight="70" />
-        <TextBox x:Name="StorageFolderPathInput"></TextBox>
-        <Button
-            x:Name="StorageFolderPathInputButton" 
-            Click="StorageFolderPathInputButton_Click"
-            Content="Submit" />
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="128" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="384" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+            <Border.Background>
+                <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
+            </Border.Background>
+        </Border>
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="16" Style="{StaticResource HeaderTextBlockStyle}">
+                    How it works...
+        </TextBlock>
+        <Grid Margin="16" Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Grid.Row="0"
+                FontSize="128"
+                TextLineBounds="Tight">
+                1
+            </TextBlock>
+            <TextBlock Margin="16 -32 0 0" Grid.Column="1" Grid.Row="1" FontSize="28">
+                Install PassiveEyes on your recording device.
+            </TextBlock>
+        </Grid>
+        <Button x:Name="NextButton" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Symbol" FontSize="54" Grid.Row="3" Grid.Column="0" Click="NextButton_Click">
+            &#57617;
+        </Button>
+    </Grid>
 </Page>

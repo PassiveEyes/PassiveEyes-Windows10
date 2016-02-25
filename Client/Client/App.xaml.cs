@@ -2,6 +2,7 @@
 {
     using Client.Pages;
     using Microsoft.OneDrive.Sdk;
+    using Models;
     using System;
     using Windows.ApplicationModel;
     using Windows.ApplicationModel.Activation;
@@ -15,6 +16,11 @@
     /// </summary>
     sealed partial class App : Application
     {
+        /// <summary>
+        /// App-wide view model used for UI databinding.
+        /// </summary>
+        public readonly ViewModel ViewModel = new ViewModel();
+
         /// <summary>
         /// Key within roaming settings to store <see cref="StorageFolderPath"/>.
         /// </summary>
