@@ -14,18 +14,6 @@ namespace Client.Models
         public ViewModel()
         {
             AvailableFeeds = new ObservableCollection<FeedModel>();
-            AvailableFeeds.Add(new FeedModel()
-            {
-                Name = "Test Feed 1"
-            });
-            AvailableFeeds.Add(new FeedModel()
-            {
-                Name = "Test Feed 2"
-            });
-            AvailableFeeds.Add(new FeedModel()
-            {
-                Name = "Test Feed 3"
-            });
         }
 
         /// <summary>

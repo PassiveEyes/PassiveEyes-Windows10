@@ -71,7 +71,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Margin="16" Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Bind Path=ViewModel.SelectedFeed.Name, Mode=OneWay}" />
                 <Viewbox Stretch="Uniform" Grid.Row="1" Grid.Column="0" Margin="0 8 0 0">
-                    <Image MinWidth="1280" MinHeight="720" Source="{x:Bind Path=ViewModel.SelectedFeed.LastSnapshot.Bitmap, Mode=OneWay}" />
+                    <CaptureElement Name="PreviewControl" Stretch="Uniform" />
                 </Viewbox>
                 <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                     <Button FontFamily="Segoe UI Symbol" FontSize="24">&#57602;</Button>
