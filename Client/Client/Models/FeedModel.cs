@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Media.Capture;
 
 namespace Client.Models
 {
@@ -34,6 +35,23 @@ namespace Client.Models
         }
         private string name;
 
+        public MediaCapture MediaCapture
+        {
+            get
+            {
+                return mediaSource;
+            }
+            set
+            {
+                if (mediaSource != value)
+                {
+                    mediaSource = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private MediaCapture mediaSource;
+
         /// <summary>
         /// Collection of snapshots taken by this feed.
         /// </summary>
@@ -42,17 +60,9 @@ namespace Client.Models
         /// <summary>
         /// Returns the last snapshot taken by this feed if one exists.
         /// </summary>
-        public SnapshotModel LastSnapshot
-        {
-            get
-            {
-                if (Snapshots != null)
-                {
-                    return Snapshots.LastOrDefault();
-                }
-                return null;
-            }
-        }
+        public SnapshotModel LastSnapshot => Snapshots?.LastOrDefault();
+
+
         #region Property Changed Events
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string name = "")
