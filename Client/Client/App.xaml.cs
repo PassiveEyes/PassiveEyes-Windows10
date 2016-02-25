@@ -38,7 +38,7 @@
             }
             set
             {
-                ApplicationData.Current.RoamingSettings.Values[StorageFolderPathKey] = value;
+                ApplicationData.Current.RoamingSettings.Values[StorageFolderPathKey] = value.Trim(' ', '/', '\\');
             }
         }
 
