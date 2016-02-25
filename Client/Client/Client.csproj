@@ -106,6 +106,8 @@
     <Compile Include="Models\SnapshotModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Controls\NullTemplateSelector.cs" />
+    <Compile Include="OneDrive\PieceOfCrap.cs" />
+    <Compile Include="OneDrive\UnauthenticatedException.cs" />
     <Compile Include="Pages\FirstRun.xaml.cs">
       <DependentUpon>FirstRun.xaml</DependentUpon>
     </Compile>

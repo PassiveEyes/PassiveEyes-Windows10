@@ -1,5 +1,6 @@
 ﻿namespace Client
 {
+    using Client.OneDrive;
     using Client.Pages;
     using Microsoft.OneDrive.Sdk;
     using Models;
@@ -45,6 +46,11 @@
         /// An SDK client interacting with the OneDrive API.
         /// </summary>
         public IOneDriveClient OneDriveClient { get; set; }
+
+        /// <summary>
+        /// Piece of crap OneDrive API wrapper.
+        /// </summary>
+        public PieceOfCrap Crap { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
