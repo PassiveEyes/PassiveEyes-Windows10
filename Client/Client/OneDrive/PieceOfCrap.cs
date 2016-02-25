@@ -1,10 +1,7 @@
 ﻿namespace Client.OneDrive
 {
     using Microsoft.OneDrive.Sdk;
-    using Newtonsoft.Json;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
 
@@ -14,69 +11,53 @@
     public class PieceOfCrap
     {
         /// <summary>
-        /// An hour-long bearer token used for authorization.
+        /// The internal <see cref="HttpRestClient"/> for requests.
         /// </summary>
-        private static readonly string Authorization = "bearer EwB4Aq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAfgJObXWCIrADyOPj+IyTXT8plBsQYTdjGCza/vFjSPAyXAxtrHHdpwZ8ktrA+wv5mpWlpuHYdkpXNU4JjqYX82p7BT1Ml2azRzXxfFqt5VtcReAJyseniYhzHcZWzfV6BALuFVtV/ajB/rZOW5G2SStx9X9Eo2r9jSYIt98lEAlDslyHXRs6Q10wLcPHX0mCvQ7foRT9uTVD/7n8tOEvRHBvoehBb83hW/71iUY/N6ryqKxEkSJHuVIlPmp1hmEcdxH/zJZTZh7DAu/igJ6sRHrMAhrsCqMpOSbcGzd2xGx3yMJYUIajdsIHyGn9fEhSS/ysE9unCCkoDNES3aq1msDZgAACEzEfG+0QiqQSAF18+2xajVo418ztlr1xGDoZEXMXDzprSvb/hsJgT/yNujjBVM6Oc7/Cfsl489WX9CI+OwzMq/NYYa6+rZWXWJvikT9nvvDzmRr1H/1Dn5r/GuJ+S2wTjrjhMcTwYjDweDRggIS27JHvgCfIN9F6GCweyexiJFLduAoXjOvlKPv21MNSXzPtRhYfcZbh3iRhcmEwbG1MDEdpJdQAv34dXHunze4roRgu8HP/e+nlW5bfZ3nPPrqW9unGsV9E1zgrg+VHrhf0MT4BwNsoi54MH8pycZ8FuPMPyQ8GzR0Lx9MZLtzuBZl6pf815xWdOYcqG+d/iv2YQbST29dIkb2zlYMyjA6XaMDZJ60MdfWuql7mGdn5OiVBIGa3rdc7PtHwbY9PEMITTJERFQA3t0ezDBIVkoE74XdQ5eBDnA7OqmqZ0qF/THRbAqYXQE=";
-
-        /// <summary>
-        /// The internal <see cref="HttpClient"/> for requests.
-        /// </summary>
-        private HttpClient Client;
+        private HttpRestClient Client;
 
         /// <summary>
         /// Initializes a new instance of the Client class.
         /// </summary>
         public PieceOfCrap()
         {
-            this.Client = new HttpClient();
-            this.Client.DefaultRequestHeaders.Add("Authorization", Authorization);
+            this.Client = new HttpRestClient
+            {
+                BasePath = "https://api.onedrive.com/v1.0/",
+                DefaultHeaders = new Dictionary<string, string>
+                {
+                    { "Authorization", "bearer EwB4Aq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAfPjLQItUMZO4nSlTuxXyAozhSm13rFUp5Gz6gZy8ZajUibQ70uiEM9qrpcYk31H0/RSpJZUnTHmLlXOxAGg5n1qKZj48sGegDzrtMayrv0W2KOmvvzjnHK4VxHhvSAJzv6ZMZ9fXu9s29BjgP5keOS66Si69JoLNHT6ADoBA9+3HwFVXccSoDEdGAbRxX8G5dXHjDl59x4oyI1UiqO16NgXh6x7fQcmfVeVMbHnyicCYzNPMY3NEzuFHa37S5KKk39dY1kXRhIEBbP8IhXECJAv5kQpfNppp4VwmRMh+Vi8ABBJ93n7ljaNSTqCz4uWp5ncK3O0RjWxDzYGRSkXcVsDZgAACPLI7V2xpkHiSAFd2Ai3xyWWx98pz0SSnZb+lHKZ/Foq69IhSsbUnMGkRorxuFKRXxwLo5qOtVT+5wl34+WfMkFPQu7ZZbfpbQPYLx47fOJJD9GgLdmxeVQ7CgFxgmsQfua3r9Qo1bHiPTv49kThtSmRJ9ONSC7JPtDcjQ11wdrWjEkbRIY8WzN2fH3VPVFA+qHbgzegPSKNmLZ5PX/s4Xfxbe4pdNt7k3BTsL7YTrt9XqrUrZ9K5qwmtEArQZZpe0Tji15iTLJKSZ0pwvUO/Wm1hH1mEWcxKNLgPcG23TixtfNt753//7yu135JJhlwlfhZvXGSKQGt1XkEG8mSFq/f+Xy0LH6NDtnzcQRPUyfYo3xq5aZqIJOyfCP99eN6DcLVY5np4y9QqmvPyZu3u23vMtMH75iQ0NfikuruSLnTNHL6wP58JTx0Wjh/DscMAB5jXQE=" }
+                }
+            };
         }
 
         /// <summary>
         /// Retrieves the user's <see cref="Drive"/>.
         /// </summary>
         /// <returns>The user's <see cref="Drive"/>.</returns>
-        public async Task<Drive> GetDrive() => await this.SendParsedGetRequest<Drive>("drive");
+        public async Task<Drive> GetDrive() => await this.Client.SendDeserialized<Drive>("drive");
 
         /// <summary>
-        /// Sends a general GET request and parses the response content.
+        /// Uploads an item to the drive.
         /// </summary>
-        /// <typeparam name="T">The class type of the content.</typeparam>
-        /// <param name="path">The path within OneDrive.</param>
-        /// <param name="parameters">Additional key-value parameters for the request.</param>
-        /// <returns>The response, parsed to type T.</returns>
-        private async Task<T> SendParsedGetRequest<T>(string path, Dictionary<string, string> parameters = null)
+        /// <param name="folderPath">The folder path of the item.</param>
+        /// <param name="fileName">The file name of the item.</param>
+        /// <param name="contents">The contents of the item.</param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> PutItem(string folderPath, string fileName, string contents)
         {
-            var request = await this.SendGetRequest(path, parameters);
-
-            if (request.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                throw new UnauthenticatedException();
-            }
-
-            return JsonConvert.DeserializeObject<T>(await request.Content.ReadAsStringAsync());
+            return await this.Client.SendPutRequest(
+                this.GenerateOneDrivePath(folderPath, fileName, "content"),
+                contents);
         }
 
         /// <summary>
-        /// Sends a general GET request.
+        /// Generates an API path for after the root path.
         /// </summary>
-        /// <param name="path">The path within OneDrive.</param>
-        /// <param name="parameters">Additional key-value parameters for the request.</param>
-        /// <returns>The response object.</returns>
-        private async Task<HttpResponseMessage> SendGetRequest(string path, Dictionary<string, string> parameters = null)
-        {
-            var requestUri = $"https://api.onedrive.com/v1.0/{path}";
-
-            if (parameters != null)
-            {
-                requestUri += "?" + string.Join(
-                    "&",
-                    parameters.Select((key, value) => $"{key}={value}"));
-
-                requestUri = requestUri.Substring(0, requestUri.Length - 1);
-            }
-
-            return await this.Client.GetAsync(requestUri);
-        }
+        /// <param name="folderPath">A folder path within the drive.</param>
+        /// <param name="fileName">A file name within the drive.</param>
+        /// <param name="extra">Any extra characters after the path.</param>
+        /// <returns></returns>
+        private string GenerateOneDrivePath(string folderPath, string fileName, string extra = "")
+            => $"drive/root:/{folderPath}/{fileName}:/{extra}";
     }
 }
