@@ -2,7 +2,6 @@
 {
     using Newtonsoft.Json;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -86,12 +85,19 @@
         /// <param name="contents">Contents of the file to create.</param>
         /// <returns>The response object.</returns>
         public async Task<HttpResponseMessage> SendPutRequest(string path, string contents = "")
-        {
-            Debug.WriteLine($"PUT (({path})) {this.GenerateRequestUri(path)}");
+            => await this.SendPutRequest(path, new StringContent(contents));
 
+        /// <summary>
+        /// Sends a general PUT request.
+        /// </summary>
+        /// <param name="path">A path after the base path.</param>
+        /// <param name="contents">Contents of the file to create.</param>
+        /// <returns>The response object.</returns>
+        public async Task<HttpResponseMessage> SendPutRequest(string path, HttpContent contents)
+        {
             return await this.Client.PutAsync(
                 this.GenerateRequestUri(path),
-                new StringContent(contents));
+                contents);
         }
 
         /// <summary>

@@ -2,10 +2,12 @@
 {
     using Media;
     using Microsoft.OneDrive.Sdk;
+    using OneDrive;
     using System;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Net.Http;
     using System.Runtime.InteropServices.WindowsRuntime;
     using System.Threading.Tasks;
     using Windows.Devices.Enumeration;
@@ -113,31 +115,33 @@
             using (var inputStream = new InMemoryRandomAccessStream())
             {
                 await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), inputStream);
-                var filePath = await ReencodeAndSavePhotoAsync(fileName, inputStream);
-                
-                //    var item = await ((App)Application.Current).OneDriveClient
-                //        .Drive
-                //        .Root
-                //        .ItemWithPath(filePath)
-                //        .Content
-                //        .Request()
-                //        .PutAsync<Item>(stream);
+                var file = await ReencodeAndSavePhotoAsync(fileName, inputStream);
+
+                var crap = ((App)Application.Current).Crap;
+                var folderName = ((App)Application.Current).StorageFolderPath;
+                var testfile = await StorageFile.GetFileFromPathAsync(file.Path);
+                var writeStream = await testfile.OpenStreamForReadAsync();
+
+                await PieceOfCrap.RunAction(async () =>
+                {
+                    await crap.PutItem(folderName, fileName, new StreamContent(writeStream));
+                });
             }
         }
-        
+
         /// <summary>
         /// Applies the given orientation to a photo stream and saves it as a StorageFile.
         /// </summary>
         /// <param name="fileName">Name the file will be stored under.</param>
         /// <param name="stream">The photo stream.</param>
-        /// <returns>The complete path of the file.</returns>
-        private static async Task<string> ReencodeAndSavePhotoAsync(string fileName, IRandomAccessStream stream)
+        /// <returns>A newly created image file.</returns>
+        private static async Task<StorageFile> ReencodeAndSavePhotoAsync(string fileName, IRandomAccessStream stream)
         {
             using (var inputStream = stream)
             {
                 var decoder = await BitmapDecoder.CreateAsync(inputStream);
 
-                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("SimplePhoto.jpeg", CreationCollisionOption.GenerateUniqueName);
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
 
                 using (var outputStream = await file.OpenAsync(FileAccessMode.ReadWrite))
                 {
@@ -149,7 +153,7 @@
                     await encoder.FlushAsync();
                 }
 
-                return file.Path;
+                return file;
             }
         }
     }

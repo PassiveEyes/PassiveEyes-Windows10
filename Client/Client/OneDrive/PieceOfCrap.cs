@@ -1,7 +1,9 @@
 ﻿namespace Client.OneDrive
 {
     using Microsoft.OneDrive.Sdk;
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Net.Http;
     using System.Threading.Tasks;
 
@@ -31,6 +33,26 @@
         }
 
         /// <summary>
+        /// Runs an action that may require authorization.
+        /// </summary>
+        /// <typeparam name="T">The return type of the task.</typeparam>
+        /// <param name="action">A task to run.</param>
+        /// <returns>The result of action.</returns>
+        /// <remarks>This is a utility to help with debugging auth failures.</remarks>
+        public static T RunAction<T>(Func<T> action)
+        {
+            try
+            {
+                return action();
+            }
+            catch (UnauthenticatedException error)
+            {
+                Debug.WriteLine($"Error: {error.Message}");
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Retrieves the user's <see cref="Drive"/>.
         /// </summary>
         /// <returns>The user's <see cref="Drive"/>.</returns>
@@ -44,6 +66,20 @@
         /// <param name="contents">The contents of the item.</param>
         /// <returns></returns>
         public async Task<HttpResponseMessage> PutItem(string folderPath, string fileName, string contents)
+        {
+            return await this.Client.SendPutRequest(
+                this.GenerateOneDrivePath(folderPath, fileName, "content"),
+                contents);
+        }
+
+        /// <summary>
+        /// Uploads an item to the drive.
+        /// </summary>
+        /// <param name="folderPath">The folder path of the item.</param>
+        /// <param name="fileName">The file name of the item.</param>
+        /// <param name="contents">The contents of the item.</param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> PutItem(string folderPath, string fileName, HttpContent contents)
         {
             return await this.Client.SendPutRequest(
                 this.GenerateOneDrivePath(folderPath, fileName, "content"),
