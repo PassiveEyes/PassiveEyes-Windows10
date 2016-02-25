@@ -10,10 +10,10 @@
         /// <summary>
         /// The minimum threshold of change 
         /// </summary>
-        private static readonly double ChangeThreshold = 11.7;
+        private static readonly double ChangeThreshold = 35;
 
         /// <summary>
-        /// 
+        /// The most recently captured bytes.
         /// </summary>
         private byte[] OldBytes;
 
@@ -27,7 +27,7 @@
 
             this.OldBytes = newBytes;
 
-            return delta < ChangeThreshold;
+            return delta > ChangeThreshold;
         }
 
         /// <summary>
@@ -43,10 +43,9 @@
                 return -1;
             }
 
-            int interval = (int)Math.Ceiling((double)a.Length / 25) * 4;
             double total = 0;
 
-            for (int i = 0; i < a.Length; i += interval)
+            for (int i = 0; i < a.Length; i += 4)
             {
                 for (int j = i; j < i + 3; j += 1)
                 {
@@ -54,8 +53,8 @@
                 }
             }
 
-            total /= interval / 4;
-
+            total /= (a.Length / 4);
+            
             return total;
         }
     }

@@ -39,27 +39,32 @@
         /// <summary>
         /// Periodically triggers analysis events on the captured input.
         /// </summary>
-        public Timer AnalysisTimer { get; private set; }
+        private Timer AnalysisTimer;
 
         /// <summary>
-        /// Periodically triggers external upload events on captured input.
+        /// How often uploads should occur, in milliseconds.
         /// </summary>
-        public Timer UploadTimer { get; private set; }
+        private int UploadFrequency;
+
+        /// <summary>
+        /// How often analyses should occur, in milliseconds.
+        /// </summary>
+        private int AnalysisFrequency;
+
+        /// <summary>
+        /// How many photos should be immediately uploaded due to an active state.
+        /// </summary>
+        private int RemainingActivePhotos;
+
+        /// <summary>
+        /// When the last upload was triggered.
+        /// </summary>
+        private DateTime LastUploaded = DateTime.Now;
 
         /// <summary>
         /// External handler for uploading a photo.
         /// </summary>
         private UploadResponder UploadHandler;
-
-        /// <summary>
-        /// How often analysis events should trigger.
-        /// </summary>
-        private int AnalysisFrequency = Frequencies.Analysis;
-
-        /// <summary>
-        /// How often upload events should trigger.
-        /// </summary>
-        private int UploadFrequency = Frequencies.Uploads.Calm;
 
         /// <summary>
         /// Initializes a new instance of the CameraReceiver class.
@@ -85,24 +90,20 @@
                     VideoDeviceId = this.CameraDevice.Id
                 });
 
-            this.ResetAnalysisTimer();
-            this.ResetUploadTimer();
+            this.ScheduleNextAnalysis();
         }
 
         /// <summary>
-        /// Resets the timer for analysis events.
+        /// Schedules the next analysis event.
         /// </summary>
-        private void ResetAnalysisTimer()
+        /// <param name="millisecondsDelayed">How many seconds this was delayed.</param>
+        private void ScheduleNextAnalysis(int millisecondsDelayed = 0)
         {
-            this.AnalysisTimer = new Timer(this.FireAnalysisTimer, null, this.AnalysisFrequency, this.AnalysisFrequency);
-        }
-
-        /// <summary>
-        /// Resets the timer for upload events.
-        /// </summary>
-        private void ResetUploadTimer()
-        {
-            this.UploadTimer = new Timer(this.FireUploadTimer, null, this.UploadFrequency, this.UploadFrequency);
+            this.AnalysisTimer = new Timer(
+                this.FireAnalysisTimer, 
+                null,
+                Math.Max(0, this.AnalysisFrequency - millisecondsDelayed),
+                Timeout.Infinite);
         }
 
         /// <summary>
@@ -111,64 +112,65 @@
         /// <param name="_">The (ignored) timer state.</param>
         private async void FireAnalysisTimer(object _)
         {
-            this.AnalysisTimer.Dispose();
-            var bytes = await this.GetPixelDataFromCapture();
+            var timeFired = DateTime.Now;
 
-            if (this.CaptureProcessor.CheckForSignificantImageChanges(bytes))
+            this.AnalysisTimer.Dispose();
+
+            if (this.CaptureProcessor.CheckForSignificantImageChanges(await this.GetPixelDataFromCapture()))
             {
-                this.UpdateUploadFrequency(Frequencies.Uploads.Active);
-                await this.TriggerUpload();
+                this.RemainingActivePhotos = 3;
+                this.AnalysisFrequency = Frequencies.Analysis.Active;
+                this.UploadFrequency = Frequencies.Uploads.Active;
             }
             else
             {
-                this.UpdateUploadFrequency(Frequencies.Uploads.Calm);
-                this.ResetUploadTimer();
+                this.AnalysisFrequency = Frequencies.Analysis.Calm;
+                this.UploadFrequency = Frequencies.Uploads.Calm;
             }
 
-            this.ResetAnalysisTimer();
+            await this.UploadIfNecessary();
+
+            this.ScheduleNextAnalysis(Math.Max(0, (DateTime.Now - timeFired).Milliseconds));
         }
 
         /// <summary>
-        /// Triggers an upload event.
+        /// Calls the upload handler if an active event recently triggered or enough time
+        /// has passed since the last upload.
         /// </summary>
-        /// <param name="_"></param>
-        private async void FireUploadTimer(object _) => await this.TriggerUpload();
-
-        /// <summary>
-        /// Triggers an upload event.
-        /// </summary>
-        private async Task TriggerUpload() => await this.UploadHandler(this.MediaCapture);
-        
-        /// <summary>
-        /// Updates the upload frequency.
-        /// </summary>
-        /// <param name="value">A new value for the frequency.</param>
-        private void UpdateUploadFrequency(int value)
+        private async Task UploadIfNecessary()
         {
-            if (this.UploadFrequency == value)
+            var timeDelta = (DateTime.Now - this.LastUploaded);
+            
+            if (this.RemainingActivePhotos > 0)
+            {
+                this.RemainingActivePhotos -= 1;
+            }
+            else if (timeDelta.TotalMilliseconds < this.UploadFrequency)
             {
                 return;
             }
 
-            this.UploadFrequency = value;
-            this.UploadTimer.Change(value, value);
+            await this.UploadHandler(this.MediaCapture);
+            this.LastUploaded = DateTime.Now;
         }
 
         /// <summary>
         /// Retrieves the raw byte data from the media capture.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Raw byte data from the media capture.</returns>
         private async Task<byte[]> GetPixelDataFromCapture()
         {
-            var stream = new InMemoryRandomAccessStream();
-            await this.MediaCapture.CapturePhotoToStreamAsync(
-                ImageEncodingProperties.CreateBmp(),
-                stream);
+            using (var stream = new InMemoryRandomAccessStream())
+            {
+                await this.MediaCapture.CapturePhotoToStreamAsync(
+                    ImageEncodingProperties.CreateBmp(),
+                    stream);
 
-            var decoder = await BitmapDecoder.CreateAsync(stream);
-            var dataProvider = await decoder.GetPixelDataAsync();
+                var decoder = await BitmapDecoder.CreateAsync(stream);
+                var dataProvider = await decoder.GetPixelDataAsync();
 
-            return dataProvider.DetachPixelData();
+                return dataProvider.DetachPixelData();
+            }
         }
     }
 }

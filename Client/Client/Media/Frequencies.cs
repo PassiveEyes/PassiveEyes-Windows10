@@ -6,9 +6,20 @@
     public static class Frequencies
     {
         /// <summary>
-        /// Frequency of analysis events.
+        /// Analysis frequencies for photos.
         /// </summary>
-        public const int Analysis = 1000;
+        public static class Analysis
+        {
+            /// <summary>
+            /// Photo analysis frequency in calm periods (as often as possible).
+            /// </summary>
+            public const int Calm = 1;
+
+            /// <summary>
+            /// Photo analysis frequency in active periods (once a second).
+            /// </summary>
+            public const int Active = 1000;
+        }
 
         /// <summary>
         /// Upload frequencies for photos.
