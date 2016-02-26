@@ -106,6 +106,9 @@
     <Compile Include="Models\SnapshotModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Controls\NullTemplateSelector.cs" />
+    <Compile Include="OneDrive\Directory\Children.cs" />
+    <Compile Include="OneDrive\Directory\Directory.cs" />
+    <Compile Include="OneDrive\Directory\Record.cs" />
     <Compile Include="OneDrive\HttpRestClient.cs" />
     <Compile Include="OneDrive\PieceOfCrap.cs" />
     <Compile Include="OneDrive\TemporaryCaptureFileStore.cs" />

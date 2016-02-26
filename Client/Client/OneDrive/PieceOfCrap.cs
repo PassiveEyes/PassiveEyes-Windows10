@@ -28,7 +28,7 @@
                 BasePath = "https://api.onedrive.com/v1.0/",
                 DefaultHeaders = new Dictionary<string, string>
                 {
-                    { "Authorization", "bearer EwB4Aq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAVe3BdFCp+z9YFvCo3fNqE+EZlqBv9EFRH2jnGmd0mcmSHdR+hsxFugrzXLBCxo45JMr2b6yqFYTSex9uxUXBP284EUFcaeg3B9VyV0caYfK+BXBxyqj24GUtoaQoG6lMVhkM5z02V9B/p1yuR3fbVfTIdy6c36Pfx/g+D8BX5Xy++VHzKNG2zLpM6iPI1Qt6m08zS1Jjmy5NGq6iau7eRX/NfZ+ix7kkSnfG/N4c2Md57URv/nzj+FnLihP6gK770wf312kuuSU/EcYfVIQmc2lIq6JUqNLQurkpO2VZoOMJNqUv0xB+LutkAZv1tD+Mr+7Asv5Dat6+JBopOgoDG4DZgAACPXnYGGS9M4GSAHGZQr92Ilr2BYO/OvUao65GzmlMPT9vOM+bxCIue5FxyAYEP8CKisMyqHPDKR6eZ/Ylq0VxgfX43K5ZOKoSzTKUTv1XJTvZGZQ5/7GIED397CXFNWtD7H1dr4lqvR474nGTtD4zRlrwnALhFXKTew+4lwz0VCHetbR2CR5bwM16eoaH32rfyD4TQ+evHBkmCNYtNJCcSUZq+ugDhdK26MtJtXdh0zBcD/QeYpZcqeD3VtyPzk4Z+drS76pQFXH+z2tAuQvrcvkfGzAiHn/Wtz+aLHQqLkoxrn/5r3au4NGgeZRUXWDm2pRjLbpR6nwY0r9al3iTT1ph/azlzdFpn0dLpGqKcUqb3D0hKmYefNr1JDBcG30iaKYGBOK+HW5d6BCQVdYGOrwfZTfAP49fMzONumU7BjLqeX5rL0+Ogwwg6FQrhzcb2ICXQE=" }
+                    { "Authorization", "bearer EwB4Aq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAUT4ksnlPf6KJmgeunUnt6Nrnj/xHL2iQzyEU4YiMlLv+0jIbvzxBJvnWzdM4uIkTPR/PzKubojGavkYjV2UH4hh3iawdicuLylhBovafTlDBWClOvNC8a/ZvIpePR8XN/65CwCVuufmxqaj0klv4ot/qGQVyqKiv4qPwEHlgEET+BSlWvbnsUSsBZS10zCHsnBy6wOWpoPy9DDeMq6kCLzRM5YGFaY5Lv44nDxU118QH1YcUkoKPSA+8x7lcs1Hcr2og/AoDRl/jIoR7M9ahb6uco3nooDuhRdsTLpF2Gu3OozkQp9oz7ZSzDEVdcotdXeI5LzdMshe4LOE/Rd/4oADZgAACE09BL4ynn23SAHND9N2sbALt76GD/OkW3NBLCiISuQFS5ufYTSLxT2pi3UQNjhXtwZopvKijjFKbomNzv3VPrwT4F2bawauVq8VpXqO66OclgXhRzXzoWiWsj8JNWHRiCRR/RfKCOZFMhuFRP8MM38uBFq7D+fmoTI4kHfEuhwTS7fF2GBtRhctrNebr3tRvEkote38yJh7E2YG0Si9KiwALmasHeNGa+fV+uY+PQ0ooEV21BrGmrJP1ZhOtqEwZjxdpoJq97c+8xvgWc+8B9tjExPgl5LlB0BBrnUAumn1BOilchh1kSewo7YoSkMqBX5aLbJZtYut3ECMFiA3WpR5Ixw6DjqCmouNtquzuoJQi3K7bLAIKeIWO63dRt1K5WdPE3dcj8q+peND1q/9d+mV6zwM0ZHBXMgSswemt66oiFveKseihKSN6tAdKiVffi+FXQE=" }
                 }
             };
         }
@@ -57,7 +57,15 @@
         /// Retrieves the user's <see cref="Drive"/>.
         /// </summary>
         /// <returns>The user's <see cref="Drive"/>.</returns>
-        public async Task<Drive> GetDrive() => await this.Client.SendDeserialized<Drive>("drive");
+        public async Task<Drive> GetDrive() => await this.Client.SendDeserializedGetRequest<Drive>("drive");
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itemPath"></param>
+        /// <returns></returns>
+        public async Task<T> GetItemChildren<T>(string itemPath)
+            => await this.Client.SendDeserializedGetRequest<T>($"drive/root:/{itemPath}:/children");
 
         /// <summary>
         /// Uploads an item to the drive.
