@@ -120,8 +120,7 @@ namespace Client.Pages
             var folderName = ((App)Application.Current).StorageFolderPath;
             var fileName = $"Upload-{DateTime.Now.ToFileTimeUtc()}.jpg";
 
-            using (var inputStream = new InMemoryRandomAccessStream())
-            using (var fileStore = await TemporaryCaptureFileStore.Create(fileName, mediaCapture, inputStream))
+            using (var fileStore = await TemporaryCaptureFileStore.Create(fileName, mediaCapture))
             {
                 await PieceOfCrap.RunAction(async (PieceOfCrap crap) =>
                 {

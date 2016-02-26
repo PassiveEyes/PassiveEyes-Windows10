@@ -57,8 +57,9 @@
         /// <param name="mediaCapture">An image capture source.</param>
         /// <param name="inputStream">An input stream for the file.</param>
         /// <returns>A new file store, with a stream from a stored file.</returns>
-        public static async Task<TemporaryCaptureFileStore> Create(string fileName, MediaCapture mediaCapture, InMemoryRandomAccessStream inputStream)
+        public static async Task<TemporaryCaptureFileStore> Create(string fileName, MediaCapture mediaCapture)
         {
+            var inputStream = new InMemoryRandomAccessStream();
             await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), inputStream);
             
             var storageFile = await ReencodeAndSavePhotoAsync(fileName, inputStream);
