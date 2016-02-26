@@ -55,7 +55,7 @@
         /// <param name="path">A path after the base path.</param>
         /// <param name="parameters">Additional key-value parameters for the request.</param>
         /// <returns>The response, deserialized to type T.</returns>
-        public async Task<T> SendDeserialized<T>(string path = "", Dictionary<string, string> parameters = null)
+        public async Task<T> SendDeserializedGetRequest<T>(string path = "", Dictionary<string, string> parameters = null)
         {
             var request = await this.SendGetRequest(path, parameters);
 
