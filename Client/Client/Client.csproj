@@ -94,8 +94,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Client_StoreKey.pfx" />
-    <None Include="config.json" />
-    <Content Include="config.default.json" />
+    <Content Include="config.json" />
+    <None Include="config.default.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
