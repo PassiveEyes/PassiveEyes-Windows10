@@ -5,6 +5,7 @@
     xmlns:local="using:Client.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Client.Controls"
     xmlns:models="using:Client.Models"
     mc:Ignorable="d">
 
@@ -19,7 +20,7 @@
             ItemsSource="{x:Bind Path=ViewModel.Cameras}">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Camera">
-                    <TextBlock Text="{x:Bind Path=Name, Mode=OneWay}" />
+                    <controls:RecordingCamera Camera="{x:Bind}"/>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

@@ -31,11 +31,6 @@
             {
                 this.Cameras.Add(camera);
             }
-
-            foreach (var camera in this.Cameras)
-            {
-                await camera.Initialize();
-            }
         }
     }
 }
