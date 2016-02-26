@@ -4,8 +4,10 @@
     using OneDrive;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Net.Http;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using Windows.Devices.Enumeration;
     using Windows.Media.Capture;
@@ -14,12 +16,27 @@
     /// <summary>
     /// A representation of a webcam or camera.
     /// </summary>
-    public class Camera
+    public class Camera : INotifyPropertyChanged
     {
         /// <summary>
-        /// The name of the camera.
+        /// The name of the camera feed.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private string name;
 
         /// <summary>
         /// Handler for the camera input.
@@ -74,5 +91,16 @@
                 (await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture))
                     .Select((device, i) => new Camera($"Camera {i}", device));
         }
+
+        #region Property Changed Events
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string name = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
     }
 }

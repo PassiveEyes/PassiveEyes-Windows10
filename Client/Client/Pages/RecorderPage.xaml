@@ -27,6 +27,7 @@
         
         <!-- Commands -->
         <Grid
+            Visibility="Collapsed"
             Background="#FF212121"
             Grid.Row="2"
             Height="50">

@@ -11,6 +11,25 @@
     Loaded="UserControl_Loaded">
 
     <Grid>
-        <CaptureElement x:Name="PreviewControl" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="21" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Text="{x:Bind Path=Camera.Name, Mode=TwoWay}" />
+
+        <CaptureElement 
+            x:Name="PreviewControl" 
+            Grid.Row="1"
+            MaxHeight="700"
+            MaxWidth="700"
+            />
+
+        <!--<TextBlock
+            Grid.Row="2"
+            Text="Last activity: never!" />-->
     </Grid>
 </UserControl>
