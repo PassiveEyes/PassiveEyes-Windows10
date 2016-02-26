@@ -21,7 +21,7 @@
             Grid.Row="0"
             Height="128"
             Margin="0,70,0,0"
-            Source="/Assets/Square44x44Logo.scale-200.png"
+            Source="/Assets/Square150x150Logo.scale-200.png"
             Width="128" />
         <Button 
             x:Name="LoginButton"
