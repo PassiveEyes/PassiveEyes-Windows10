@@ -86,7 +86,7 @@
             var response = await result.Content.ReadAsAsync<AuthResponseModel>();
             ((App)Application.Current).Crap = new PieceOfCrap(response.AccessToken);
             await PieceOfCrap.RunAction(async (PieceOfCrap crap) => await crap.GetDrive());
-            Frame.Navigate(typeof(FirstRun));
+            Frame.Navigate(typeof(UsageChoicePage));
         }
     }
 }

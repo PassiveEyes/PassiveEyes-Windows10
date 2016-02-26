@@ -1,6 +1,7 @@
 ﻿namespace Client.Pages
 {
     using Models;
+    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Navigation;
 
@@ -31,5 +32,10 @@
         {
             await this.ViewModel.Initialize();
         }
+
+        /// <summary>
+        /// Navigates to the <see cref="UsageChoicePage"/>.
+        /// </summary>
+        private void AppBarButton_Click(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(UsageChoicePage));
     }
 }

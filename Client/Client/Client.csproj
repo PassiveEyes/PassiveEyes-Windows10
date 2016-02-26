@@ -131,6 +131,9 @@
     <Compile Include="Pages\RecorderPage.xaml.cs">
       <DependentUpon>RecorderPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\UsageChoicePage.xaml.cs">
+      <DependentUpon>UsageChoicePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ViewerPage.xaml.cs">
       <DependentUpon>ViewerPage.xaml</DependentUpon>
     </Compile>
@@ -172,6 +175,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\RecorderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UsageChoicePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

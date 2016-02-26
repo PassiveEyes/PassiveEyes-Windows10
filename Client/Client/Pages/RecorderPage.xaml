@@ -1,13 +1,13 @@
 ﻿<Page
-    x:Class="Client.Pages.RecorderPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Client.Pages"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Client.Controls"
-    xmlns:models="using:Client.Models"
-    mc:Ignorable="d">
+        x:Class="Client.Pages.RecorderPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:Client.Pages"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="using:Client.Controls"
+        xmlns:models="using:Client.Models"
+        mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -24,7 +24,7 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        
+
         <!-- Commands -->
         <Grid
             Visibility="Collapsed"
@@ -46,20 +46,20 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock
-                x:Name="StartStopIcon"
-                FontFamily="Segoe UI Symbol"
-                FontSize="28"
-                Grid.Column="0"
-                Text="&#57602;"
-                TextAlignment="Center"
-                VerticalAlignment="Center" />
+                    x:Name="StartStopIcon"
+                    FontFamily="Segoe UI Symbol"
+                    FontSize="28"
+                    Grid.Column="0"
+                    Text="&#57602;"
+                    TextAlignment="Center"
+                    VerticalAlignment="Center" />
 
                 <TextBlock
-                x:Name="StartStopMessage"
-                FontSize="21"
-                Grid.Column="1"
-                Text="Start Monitoring All"
-                VerticalAlignment="Center" />
+                    x:Name="StartStopMessage"
+                    FontSize="21"
+                    Grid.Column="1"
+                    Text="Start Monitoring All"
+                    VerticalAlignment="Center" />
             </Grid>
 
             <!-- Globe -->
@@ -72,4 +72,10 @@
                 VerticalAlignment="Center" />
         </Grid>
     </Grid>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Back" Label="Back" Click="AppBarButton_Click" />
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>
