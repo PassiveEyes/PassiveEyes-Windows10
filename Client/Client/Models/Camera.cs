@@ -1,12 +1,15 @@
 ﻿namespace Client.Models
 {
     using Media;
+    using OneDrive;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using Windows.Devices.Enumeration;
     using Windows.Media.Capture;
+    using Windows.UI.Xaml;
 
     /// <summary>
     /// A representation of a webcam or camera.
@@ -32,18 +35,33 @@
         public Camera(string name, DeviceInformation cameraDevice)
         {
             this.Name = name;
-            this.Receiver = new CameraReceiver(cameraDevice, this.HandleUpload);
         }
 
         /// <summary>
-        /// Handles the receiver signaling for an upload.
+        /// Responds to a receiver indicating an upload should occur.
         /// </summary>
-        /// <param name="mediaCapture">The receiver's media.</param>
-        private Task HandleUpload(MediaCapture mediaCapture)
+        /// <param name="mediaCapture">An image capture source.</param>
+        private async Task HandleUpload(MediaCapture mediaCapture)
         {
-            // System.Diagnostics.Debugger.Break();
-            return null;
+            var folderName = ((App)Application.Current).StorageFolderPath;
+            var fileName = this.GenerateFileName();
+
+            using (var fileStore = await TemporaryCaptureFileStore.Create(fileName, mediaCapture))
+            {
+                await PieceOfCrap.RunAction(async (PieceOfCrap crap) =>
+                {
+                    await crap.PutItem(folderName, fileName, new StreamContent(fileStore.OutputStream));
+                });
+
+                await fileStore.DisposeAsync();
+            }
         }
+
+        /// <summary>
+        /// Generates a file name for a new file based on the current time and name.
+        /// </summary>
+        /// <returns>A file name for a new file.</returns>
+        private string GenerateFileName() => $"PassiveEyes-Snapshot-{DateTime.Now.ToFileTimeUtc()}-{this.Name}.jpg";
 
         /// <summary>
         /// Converts available cameras into <see cref="Camera"/> instances.
