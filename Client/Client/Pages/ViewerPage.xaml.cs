@@ -58,6 +58,11 @@ namespace Client.Pages
             await this.InitializeMainPreview();
         }
 
+        /// <summary>
+        /// Reacts to the feed list changing the selected item.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FeedList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ViewModel.SelectedFeed = FeedList.SelectedItem as FeedModel;
@@ -108,54 +113,22 @@ namespace Client.Pages
         /// <summary>
         /// Responds to a receiver indicating an upload should occur.
         /// </summary>
-        /// <param name="mediaCapture">A image capture source.</param>
+        /// <param name="mediaCapture">An image capture source.</param>
         /// <todo>Move this logic into a helper class.</todo>
         private async Task OnFiredUpload(MediaCapture mediaCapture)
         {
+            var folderName = ((App)Application.Current).StorageFolderPath;
             var fileName = $"Upload-{DateTime.Now.ToFileTimeUtc()}.jpg";
 
             using (var inputStream = new InMemoryRandomAccessStream())
+            using (var fileStore = await TemporaryCaptureFileStore.Create(fileName, mediaCapture, inputStream))
             {
-                await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), inputStream);
-                var file = await ReencodeAndSavePhotoAsync(fileName, inputStream);
-
-                var crap = ((App)Application.Current).Crap;
-                var folderName = ((App)Application.Current).StorageFolderPath;
-                var testfile = await StorageFile.GetFileFromPathAsync(file.Path);
-                var writeStream = await testfile.OpenStreamForReadAsync();
-
-                await PieceOfCrap.RunAction(async () =>
+                await PieceOfCrap.RunAction(async (PieceOfCrap crap) =>
                 {
-                    await crap.PutItem(folderName, fileName, new StreamContent(writeStream));
+                    await crap.PutItem(folderName, fileName, new StreamContent(fileStore.OutputStream));
                 });
-            }
-        }
 
-        /// <summary>
-        /// Applies the given orientation to a photo stream and saves it as a StorageFile.
-        /// </summary>
-        /// <param name="fileName">Name the file will be stored under.</param>
-        /// <param name="stream">The photo stream.</param>
-        /// <returns>A newly created image file.</returns>
-        private static async Task<StorageFile> ReencodeAndSavePhotoAsync(string fileName, IRandomAccessStream stream)
-        {
-            using (var inputStream = stream)
-            {
-                var decoder = await BitmapDecoder.CreateAsync(inputStream);
-
-                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
-
-                using (var outputStream = await file.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    var encoder = await BitmapEncoder.CreateForTranscodingAsync(outputStream, decoder);
-
-                    var properties = new BitmapPropertySet { { "System.Photo.Orientation", new BitmapTypedValue(PhotoOrientation.Normal, PropertyType.UInt16) } };
-
-                    await encoder.BitmapProperties.SetPropertiesAsync(properties);
-                    await encoder.FlushAsync();
-                }
-
-                return file;
+                await fileStore.DisposeAsync();
             }
         }
     }

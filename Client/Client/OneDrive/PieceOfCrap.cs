@@ -6,6 +6,7 @@
     using System.Diagnostics;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Windows.UI.Xaml;
 
     /// <summary>
     /// A small wrapper around the OneDrive API. Ugh.
@@ -27,7 +28,7 @@
                 BasePath = "https://api.onedrive.com/v1.0/",
                 DefaultHeaders = new Dictionary<string, string>
                 {
-                    { "Authorization", "bearer EwB4Aq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAfPjLQItUMZO4nSlTuxXyAozhSm13rFUp5Gz6gZy8ZajUibQ70uiEM9qrpcYk31H0/RSpJZUnTHmLlXOxAGg5n1qKZj48sGegDzrtMayrv0W2KOmvvzjnHK4VxHhvSAJzv6ZMZ9fXu9s29BjgP5keOS66Si69JoLNHT6ADoBA9+3HwFVXccSoDEdGAbRxX8G5dXHjDl59x4oyI1UiqO16NgXh6x7fQcmfVeVMbHnyicCYzNPMY3NEzuFHa37S5KKk39dY1kXRhIEBbP8IhXECJAv5kQpfNppp4VwmRMh+Vi8ABBJ93n7ljaNSTqCz4uWp5ncK3O0RjWxDzYGRSkXcVsDZgAACPLI7V2xpkHiSAFd2Ai3xyWWx98pz0SSnZb+lHKZ/Foq69IhSsbUnMGkRorxuFKRXxwLo5qOtVT+5wl34+WfMkFPQu7ZZbfpbQPYLx47fOJJD9GgLdmxeVQ7CgFxgmsQfua3r9Qo1bHiPTv49kThtSmRJ9ONSC7JPtDcjQ11wdrWjEkbRIY8WzN2fH3VPVFA+qHbgzegPSKNmLZ5PX/s4Xfxbe4pdNt7k3BTsL7YTrt9XqrUrZ9K5qwmtEArQZZpe0Tji15iTLJKSZ0pwvUO/Wm1hH1mEWcxKNLgPcG23TixtfNt753//7yu135JJhlwlfhZvXGSKQGt1XkEG8mSFq/f+Xy0LH6NDtnzcQRPUyfYo3xq5aZqIJOyfCP99eN6DcLVY5np4y9QqmvPyZu3u23vMtMH75iQ0NfikuruSLnTNHL6wP58JTx0Wjh/DscMAB5jXQE=" }
+                    { "Authorization", "bearer EwB4Aq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAVe3BdFCp+z9YFvCo3fNqE+EZlqBv9EFRH2jnGmd0mcmSHdR+hsxFugrzXLBCxo45JMr2b6yqFYTSex9uxUXBP284EUFcaeg3B9VyV0caYfK+BXBxyqj24GUtoaQoG6lMVhkM5z02V9B/p1yuR3fbVfTIdy6c36Pfx/g+D8BX5Xy++VHzKNG2zLpM6iPI1Qt6m08zS1Jjmy5NGq6iau7eRX/NfZ+ix7kkSnfG/N4c2Md57URv/nzj+FnLihP6gK770wf312kuuSU/EcYfVIQmc2lIq6JUqNLQurkpO2VZoOMJNqUv0xB+LutkAZv1tD+Mr+7Asv5Dat6+JBopOgoDG4DZgAACPXnYGGS9M4GSAHGZQr92Ilr2BYO/OvUao65GzmlMPT9vOM+bxCIue5FxyAYEP8CKisMyqHPDKR6eZ/Ylq0VxgfX43K5ZOKoSzTKUTv1XJTvZGZQ5/7GIED397CXFNWtD7H1dr4lqvR474nGTtD4zRlrwnALhFXKTew+4lwz0VCHetbR2CR5bwM16eoaH32rfyD4TQ+evHBkmCNYtNJCcSUZq+ugDhdK26MtJtXdh0zBcD/QeYpZcqeD3VtyPzk4Z+drS76pQFXH+z2tAuQvrcvkfGzAiHn/Wtz+aLHQqLkoxrn/5r3au4NGgeZRUXWDm2pRjLbpR6nwY0r9al3iTT1ph/azlzdFpn0dLpGqKcUqb3D0hKmYefNr1JDBcG30iaKYGBOK+HW5d6BCQVdYGOrwfZTfAP49fMzONumU7BjLqeX5rL0+Ogwwg6FQrhzcb2ICXQE=" }
                 }
             };
         }
@@ -39,11 +40,11 @@
         /// <param name="action">A task to run.</param>
         /// <returns>The result of action.</returns>
         /// <remarks>This is a utility to help with debugging auth failures.</remarks>
-        public static T RunAction<T>(Func<T> action)
+        public static T RunAction<T>(Func<PieceOfCrap, T> action)
         {
             try
             {
-                return action();
+                return action(((App)Application.Current).Crap);
             }
             catch (UnauthenticatedException error)
             {
