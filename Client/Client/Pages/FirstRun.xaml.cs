@@ -20,7 +20,7 @@
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ViewerPage));
+            Frame.Navigate(typeof(RecorderPage));
         }
 
         //private void RefreshMessage()

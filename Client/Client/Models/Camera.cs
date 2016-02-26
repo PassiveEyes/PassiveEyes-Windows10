@@ -35,6 +35,7 @@
         public Camera(string name, DeviceInformation cameraDevice)
         {
             this.Name = name;
+            this.Receiver = new CameraReceiver(cameraDevice, this.HandleUpload);
         }
 
         /// <summary>
@@ -69,7 +70,7 @@
         /// <returns></returns>
         public static async Task<IEnumerable<Camera>> CollectCameras()
         {
-            return 
+            return
                 (await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture))
                     .Select((device, i) => new Camera($"Camera {i}", device));
         }
