@@ -106,7 +106,9 @@
     <Compile Include="Media\Frequencies.cs" />
     <Compile Include="Models\AuthResponseModel.cs" />
     <Compile Include="Models\ConfigModel.cs" />
+    <Compile Include="Models\Camera.cs" />
     <Compile Include="Models\FeedModel.cs" />
+    <Compile Include="Models\ReorderPageViewModel.cs" />
     <Compile Include="Models\SnapshotModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Controls\NullTemplateSelector.cs" />
@@ -122,6 +124,9 @@
     </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RecorderPage.xaml.cs">
+      <DependentUpon>RecorderPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ViewerPage.xaml.cs">
       <DependentUpon>ViewerPage.xaml</DependentUpon>
@@ -158,6 +163,10 @@
     <Page Include="Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\RecorderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ViewerPage.xaml">
       <SubType>Designer</SubType>
