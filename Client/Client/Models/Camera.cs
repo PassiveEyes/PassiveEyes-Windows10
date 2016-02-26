@@ -7,7 +7,6 @@
     using System.Threading.Tasks;
     using Windows.Devices.Enumeration;
     using Windows.Media.Capture;
-    using Windows.UI.Xaml.Controls;
 
     /// <summary>
     /// A representation of a webcam or camera.
@@ -25,11 +24,6 @@
         public CameraReceiver Receiver { get; private set; }
 
         /// <summary>
-        /// God only knows what the hell I'm supposed to do with this.
-        /// </summary>
-        public CaptureElement CaptureElement { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Camera"/> class.
         /// </summary>
         /// <param name="name">The name of the camera.</param>
@@ -42,23 +36,12 @@
         }
 
         /// <summary>
-        /// Initializes the receiver and does some CaptureElement stuff.
-        /// </summary>
-        public async Task Initialize()
-        {
-            await this.Receiver.Initialize();
-
-            this.CaptureElement = new CaptureElement();
-            this.CaptureElement.Source = this.Receiver.MediaCapture;
-        }
-
-        /// <summary>
         /// Handles the receiver signaling for an upload.
         /// </summary>
         /// <param name="mediaCapture">The receiver's media.</param>
         private Task HandleUpload(MediaCapture mediaCapture)
         {
-            System.Diagnostics.Debugger.Break();
+            // System.Diagnostics.Debugger.Break();
             return null;
         }
 

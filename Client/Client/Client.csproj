@@ -100,6 +100,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\RecordingCamera.xaml.cs">
+      <DependentUpon>RecordingCamera.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Media\CameraReceiver.cs" />
     <Compile Include="Media\Frequencies.cs" />
     <Compile Include="Models\Camera.cs" />
@@ -152,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\RecordingCamera.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\FirstRun.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
