@@ -108,6 +108,7 @@
     <Compile Include="Controls\NullTemplateSelector.cs" />
     <Compile Include="OneDrive\HttpRestClient.cs" />
     <Compile Include="OneDrive\PieceOfCrap.cs" />
+    <Compile Include="OneDrive\TemporaryCaptureFileStore.cs" />
     <Compile Include="OneDrive\UnauthenticatedException.cs" />
     <Compile Include="Pages\FirstRun.xaml.cs">
       <DependentUpon>FirstRun.xaml</DependentUpon>

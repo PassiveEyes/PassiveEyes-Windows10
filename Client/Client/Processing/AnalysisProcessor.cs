@@ -10,7 +10,7 @@
         /// <summary>
         /// The minimum threshold of change 
         /// </summary>
-        private static readonly double ChangeThreshold = 35;
+        private static readonly double ChangeThreshold = 14;
 
         /// <summary>
         /// The most recently captured bytes.
@@ -45,17 +45,12 @@
 
             double total = 0;
 
-            for (int i = 0; i < a.Length; i += 4)
+            for (int i = 0; i < a.Length; i += 1)
             {
-                for (int j = i; j < i + 3; j += 1)
-                {
-                    total += Math.Abs(a[j] - b[j]);
-                }
+                total += Math.Abs(a[i] - b[i]);
             }
-
-            total /= (a.Length / 4);
             
-            return total;
+            return total / a.Length;
         }
     }
 }

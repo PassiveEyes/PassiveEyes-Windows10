@@ -36,9 +36,8 @@
         /// <param name="e">The triggered event.</param>
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var crap = ((App)Application.Current).Crap = new PieceOfCrap();
-
-            await PieceOfCrap.RunAction(async () => await crap.GetDrive());
+            ((App)Application.Current).Crap = new PieceOfCrap();
+            await PieceOfCrap.RunAction(async (PieceOfCrap crap) => await crap.GetDrive());
 
             Frame.Navigate(typeof(FirstRun));
         }
