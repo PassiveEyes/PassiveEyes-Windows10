@@ -28,7 +28,7 @@
                 ItemsSource="{x:Bind Path=ViewModel.Cameras}">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Camera">
-                        <controls:RecordingCamera Camera="{x:Bind}"/>
+                        <controls:RecordingCamera Camera="{x:Bind}" MaxWidth="490" MaxHeight="490"/>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>

@@ -24,7 +24,7 @@
         /// <summary>
         /// Scopes allowed for OneDrive SDK authentication.
         /// </summary>
-        private static readonly string[] Scopes = { "onedrive.readwrite", "wl.offline_access" };
+        private static readonly string[] Scopes = { "onedrive.readwrite" };
 
         /// <summary>
         /// Initializes a new instance of the MainPage class.

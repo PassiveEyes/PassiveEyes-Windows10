@@ -10,27 +10,39 @@
         <Grid.Background>
             <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
         </Grid.Background>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
-            <Image
-                Margin="0 0 0 48"
-                Width="128"
-                Height="128"
-                Source="/Assets/Square44x44Logo.scale-200.png" />
-            <Button 
-                x:Name="LoginButton"
-                Click="LoginButton_Click"
-                Content="Sign In with OneDrive" />
-            <HyperlinkButton
-                x:Name="AboutButton"
-                HorizontalAlignment="Center"
-                Foreground="#ffffffff"
-                Content="About PassiveEyes" />
-        </StackPanel>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+
+        <Image
+            Grid.Row="0"
+            Height="128"
+            Source="/Assets/Square44x44Logo.scale-200.png"
+            Width="128" />
+        <Button 
+            x:Name="LoginButton"
+            Click="LoginButton_Click"
+            Content="Sign into your Microsoft account"
+            FontSize="17"
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            Padding="28" />
+        <HyperlinkButton
+            x:Name="AboutButton"
+            Content="About PassiveEyes"
+            Foreground="#ffffffff"
+            Grid.Row="2"
+            HorizontalAlignment="Center" />
 
         <WebView
             x:Name="AuthWebView"
-            Visibility="Collapsed"
+            Grid.RowSpan="3"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" NavigationStarting="AuthWebView_NavigationStarting" />
+            NavigationStarting="AuthWebView_NavigationStarting"
+            VerticalAlignment="Stretch" 
+            Visibility="Collapsed" />
     </Grid>
 </Page>

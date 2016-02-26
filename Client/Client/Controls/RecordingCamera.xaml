@@ -23,10 +23,7 @@
 
         <CaptureElement 
             x:Name="PreviewControl" 
-            Grid.Row="1"
-            MaxHeight="700"
-            MaxWidth="700"
-            />
+            Grid.Row="1" />
 
         <!--<TextBlock
             Grid.Row="2"

@@ -10,7 +10,7 @@
         /// <summary>
         /// The minimum threshold of change 
         /// </summary>
-        private static readonly double ChangeThreshold = 14;
+        private static readonly double ChangeThreshold = 11.7;
 
         /// <summary>
         /// The most recently captured bytes.
