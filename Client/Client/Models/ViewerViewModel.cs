@@ -4,7 +4,10 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Threading;
     using System.Threading.Tasks;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// The code-behind view model for the <see cref="ViewerPage"/>.
@@ -31,6 +34,24 @@
             {
                 this.MostRecentSnapshots.Add(snapshot);
             }
+
+            //new Timer(this.RefreshSnapshots, null, 1000, Timeout.Infinite);
+        }
+
+        public async void RefreshSnapshots(object _)
+        {
+            var directory = await Directory.FromFolderPath("PassiveEyes");
+            var newSnapshots = (await directory.GetTopSnapshots()).ToArray();
+
+            for (int i = 0; i < this.MostRecentSnapshots.Count; i += 1)
+            {
+                if (newSnapshots[i].TimeStamp != this.MostRecentSnapshots[i].TimeStamp)
+                {
+                    this.MostRecentSnapshots[i] = newSnapshots[i];
+                }
+            }
+
+            new Timer(this.RefreshSnapshots, null, 500, Timeout.Infinite);
         }
 
         #region Property Changed events

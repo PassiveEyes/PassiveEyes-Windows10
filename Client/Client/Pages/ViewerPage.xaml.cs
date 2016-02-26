@@ -6,6 +6,8 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices.WindowsRuntime;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Windows.Foundation;
     using Windows.Foundation.Collections;
     using Windows.UI.Xaml;
@@ -35,6 +37,31 @@
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             await this.ViewModel.Initialize();
+
+            await Task.Delay(1000);
+
+            this.OnNavigatedTo(e);
+        }
+
+        private void Reload(object param)
+        {
+            var type = this.Frame.CurrentSourcePageType;
+
+            if (this.Frame.BackStack.Any())
+            {
+                type = this.Frame.BackStack.Last().SourcePageType;
+                param = this.Frame.BackStack.Last().Parameter;
+            }
+
+            try
+            {
+                this.Frame.Navigate(type, param);
+                return;
+            }
+            finally
+            {
+                this.Frame.BackStack.Remove(this.Frame.BackStack.Last());
+            }
         }
     }
 }
