@@ -40,8 +40,6 @@ namespace Client.Pages
         /// </summary>
         private CameraReceiver[] CameraReceivers;
 
-        private List<CaptureElement> testElements = new List<CaptureElement>();
-
         public ViewerPage()
         {
             this.InitializeComponent();
@@ -66,6 +64,13 @@ namespace Client.Pages
         private void FeedList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ViewModel.SelectedFeed = FeedList.SelectedItem as FeedModel;
+        }
+
+        private async void Grid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.ViewModel.SelectedFeed = (FeedModel)((Grid)sender).DataContext;
+
+            await this.InitializeMainPreview();
         }
 
         /// <summary>

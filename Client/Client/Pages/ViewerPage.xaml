@@ -36,7 +36,7 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:FeedModel">
-                                <Grid>
+                                <Grid Tapped="Grid_Tapped">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="12" />
                                         <ColumnDefinition Width="*" />
