@@ -94,6 +94,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Client_StoreKey.pfx" />
+    <None Include="config.json" />
+    <Content Include="config.default.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +104,8 @@
     </Compile>
     <Compile Include="Media\CameraReceiver.cs" />
     <Compile Include="Media\Frequencies.cs" />
+    <Compile Include="Models\AuthResponseModel.cs" />
+    <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\FeedModel.cs" />
     <Compile Include="Models\SnapshotModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
@@ -165,10 +169,15 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="SetupAppConfig" Condition="!Exists('config.json')">
+    <Copy SourceFiles="config.default.json" DestinationFiles="config.json" />
   </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets. -->
+  <Target Name="BeforeBuild">
+    <CallTarget Targets="SetupAppConfig" />
+  </Target>
+  <!--
   <Target Name="AfterBuild">
   </Target>
   -->

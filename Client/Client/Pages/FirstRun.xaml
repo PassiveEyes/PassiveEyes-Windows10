@@ -8,16 +8,39 @@
     mc:Ignorable="d">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="Compact">
+                    <VisualState.Setters>
+                        <Setter Target="MobileImageRow.Height" Value="300" />
+                        <Setter Target="DesktopImageColumn.Width" Value="0" />
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Full">
+                    <VisualState.Setters>
+                        <Setter Target="MobileImageRow.Height" Value="0" />
+                        <Setter Target="DesktopImageColumn.Width" Value="384" />
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="128" />
+            <RowDefinition x:Name="MobileImageRow" Height="0" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="384" />
+            <ColumnDefinition x:Name="DesktopImageColumn" Width="384" />
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="1">
             <Border.Background>
                 <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
             </Border.Background>
@@ -45,7 +68,7 @@
                 Install PassiveEyes on your recording device.
             </TextBlock>
         </Grid>
-        <Button x:Name="NextButton" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Symbol" FontSize="54" Grid.Row="3" Grid.Column="0" Click="NextButton_Click">
+        <Button x:Name="NextButton" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Symbol" FontSize="54" Grid.Row="2" Grid.Column="0" Click="NextButton_Click">
             &#57617;
         </Button>
     </Grid>

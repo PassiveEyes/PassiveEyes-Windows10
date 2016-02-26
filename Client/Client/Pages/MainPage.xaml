@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
     <Grid>
         <Grid.Background>
             <SolidColorBrush Color="{ThemeResource SystemAccentColor}" />
@@ -27,5 +26,11 @@
                 Foreground="#ffffffff"
                 Content="About PassiveEyes" />
         </StackPanel>
+
+        <WebView
+            x:Name="AuthWebView"
+            Visibility="Collapsed"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" NavigationStarting="AuthWebView_NavigationStarting" />
     </Grid>
 </Page>

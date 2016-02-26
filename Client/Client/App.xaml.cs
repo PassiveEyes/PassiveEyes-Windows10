@@ -4,6 +4,7 @@
     using Client.Pages;
     using Microsoft.OneDrive.Sdk;
     using Models;
+    using Newtonsoft.Json;
     using System;
     using Windows.ApplicationModel;
     using Windows.ApplicationModel.Activation;
@@ -53,6 +54,11 @@
         public PieceOfCrap Crap { get; set; }
 
         /// <summary>
+        /// Configuration data
+        /// </summary>
+        public ConfigModel AppConfig { get; set; }
+
+        /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
@@ -64,6 +70,12 @@
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            // Load config
+            Uri appUri = new Uri("ms-appx:///config.json");
+            StorageFile jsonFile = StorageFile.GetFileFromApplicationUriAsync(appUri).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+            string jsonText = FileIO.ReadTextAsync(jsonFile).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+            AppConfig = JsonConvert.DeserializeObject<ConfigModel>(jsonText);
         }
 
         /// <summary>

@@ -21,14 +21,14 @@
         /// <summary>
         /// Initializes a new instance of the Client class.
         /// </summary>
-        public PieceOfCrap()
+        public PieceOfCrap(string accessToken)
         {
             this.Client = new HttpRestClient
             {
                 BasePath = "https://api.onedrive.com/v1.0/",
                 DefaultHeaders = new Dictionary<string, string>
                 {
-                    { "Authorization", "bearer EwB4Aq1DBAAUGCCXc8wU/zFu9QnLdZXy+YnElFkAAUT4ksnlPf6KJmgeunUnt6Nrnj/xHL2iQzyEU4YiMlLv+0jIbvzxBJvnWzdM4uIkTPR/PzKubojGavkYjV2UH4hh3iawdicuLylhBovafTlDBWClOvNC8a/ZvIpePR8XN/65CwCVuufmxqaj0klv4ot/qGQVyqKiv4qPwEHlgEET+BSlWvbnsUSsBZS10zCHsnBy6wOWpoPy9DDeMq6kCLzRM5YGFaY5Lv44nDxU118QH1YcUkoKPSA+8x7lcs1Hcr2og/AoDRl/jIoR7M9ahb6uco3nooDuhRdsTLpF2Gu3OozkQp9oz7ZSzDEVdcotdXeI5LzdMshe4LOE/Rd/4oADZgAACE09BL4ynn23SAHND9N2sbALt76GD/OkW3NBLCiISuQFS5ufYTSLxT2pi3UQNjhXtwZopvKijjFKbomNzv3VPrwT4F2bawauVq8VpXqO66OclgXhRzXzoWiWsj8JNWHRiCRR/RfKCOZFMhuFRP8MM38uBFq7D+fmoTI4kHfEuhwTS7fF2GBtRhctrNebr3tRvEkote38yJh7E2YG0Si9KiwALmasHeNGa+fV+uY+PQ0ooEV21BrGmrJP1ZhOtqEwZjxdpoJq97c+8xvgWc+8B9tjExPgl5LlB0BBrnUAumn1BOilchh1kSewo7YoSkMqBX5aLbJZtYut3ECMFiA3WpR5Ixw6DjqCmouNtquzuoJQi3K7bLAIKeIWO63dRt1K5WdPE3dcj8q+peND1q/9d+mV6zwM0ZHBXMgSswemt66oiFveKseihKSN6tAdKiVffi+FXQE=" }
+                    { "Authorization", "bearer " + accessToken }
                 }
             };
         }
