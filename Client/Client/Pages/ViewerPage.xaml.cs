@@ -110,7 +110,7 @@ namespace Client.Pages
         {
             var mediaCapture = this.ViewModel.SelectedFeed.MediaCapture;
 
-            this.PreviewControl.Source = mediaCapture;
+            //this.PreviewControl.Source = mediaCapture;
 
             await mediaCapture.StartPreviewAsync();
         }

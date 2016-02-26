@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Client.Models"
+    xmlns:controls="using:Client.Controls"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -62,22 +63,45 @@
                 </Grid>
             </SplitView.Pane>
             <!-- Begin main viewer pane -->
-            <Grid Padding="8">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="200" />
-                </Grid.RowDefinitions>
-                <TextBlock Margin="16" Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Bind Path=ViewModel.SelectedFeed.Name, Mode=OneWay}" />
-                <Viewbox Stretch="Uniform" Grid.Row="1" Grid.Column="0" Margin="0 8 0 0">
-                    <CaptureElement Name="PreviewControl" Stretch="Uniform" />
-                </Viewbox>
-                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                    <Button FontFamily="Segoe UI Symbol" FontSize="24">&#57602;</Button>
-                    <Button FontFamily="Segoe UI Symbol" FontSize="24">&#57605;</Button>
-                </StackPanel>
-            </Grid>
+            <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{x:Bind Path=ViewModel.SelectedFeed, Mode=OneWay}">
+                <ContentControl.ContentTemplateSelector>
+                    <controls:NullTemplateSelector x:Name="MainViewerTemplateSelector">
+                        <!-- Null Template is shown when a feed has not been selected. -->
+                        <controls:NullTemplateSelector.NullTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="8">
+                                    <TextBlock
+                                        Style="{StaticResource SubheaderTextBlockStyle}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="Please select a feed." />
+                                </Grid>
+                            </DataTemplate>
+                        </controls:NullTemplateSelector.NullTemplate>
+                        <!-- NotNullTemplate is shown when a feed has been selected. -->
+                        <controls:NullTemplateSelector.NotNullTemplate>
+                            <DataTemplate x:DataType="models:FeedModel">
+                                <Grid Padding="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="200" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="16" Style="{StaticResource HeaderTextBlockStyle}" Text="{x:Bind Path=Name, Mode=OneWay}" />
+                                    <Viewbox Stretch="Uniform" Grid.Row="1" Grid.Column="0" Margin="0 8 0 0">
+                                        <Image MinWidth="1280" MinHeight="720" Source="{x:Bind Path=LastSnapshot.Bitmap, Mode=OneWay}" />
+                                    </Viewbox>
+                                    <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                                        <Button FontFamily="Segoe UI Symbol" FontSize="24">&#57602;</Button>
+                                        <Button FontFamily="Segoe UI Symbol" FontSize="24">&#57605;</Button>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </controls:NullTemplateSelector.NotNullTemplate>
+                    </controls:NullTemplateSelector>
+                </ContentControl.ContentTemplateSelector>
+            </ContentControl>
         </SplitView>
     </Grid>
 </Page>

@@ -62,6 +62,26 @@ namespace Client.Models
         /// </summary>
         public SnapshotModel LastSnapshot => Snapshots?.LastOrDefault();
 
+        /// <summary>
+        /// Defines whether or not this is a local feed or remote feed.
+        /// </summary>
+        public bool IsLocal
+        {
+            get
+            {
+                return isLocal;
+            }
+            set
+            {
+                if (isLocal != value)
+                {
+                    isLocal = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private bool isLocal;
+
 
         #region Property Changed Events
         public event PropertyChangedEventHandler PropertyChanged;

@@ -13,8 +13,8 @@ namespace Client.Controls
     /// </summary>
     public class NullTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate NullTemplate;
-        public DataTemplate NotNullTemplate;
+        public DataTemplate NullTemplate { get; set; }
+        public DataTemplate NotNullTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
