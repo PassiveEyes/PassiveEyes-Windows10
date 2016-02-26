@@ -29,9 +29,9 @@
             VerticalAlignment="Stretch" />
 
         <Button
-            x:Name="ControllerChooser"
-            Click="ControllerChooser_Click"
-            Content="As a controller"
+            x:Name="ViewerChooser"
+            Click="ViewerChooser_Click"
+            Content="As a viewer"
             Grid.Row="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch" />

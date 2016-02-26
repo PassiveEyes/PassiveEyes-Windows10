@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Net.Http;
     using System.Threading.Tasks;
     using Windows.UI.Xaml;
@@ -93,6 +94,20 @@
             return await this.Client.SendPutRequest(
                 this.GenerateOneDrivePath(folderPath, fileName, "content"),
                 contents);
+        }
+
+        /// <summary>
+        /// Retrieves item contents for an item.
+        /// </summary>
+        /// <param name="folderPath">A folder path within the drive.</param>
+        /// <param name="fileName">A file name within the drive.</param>
+        /// <returns>The item's contents.</returns>
+        public async Task<Stream> GetItemContents(string folderPath, string fileName)
+        {
+            var response = await this.Client.SendGetRequest(
+                this.GenerateOneDrivePath(folderPath, fileName, "content"));
+
+            return await response.Content.ReadAsStreamAsync();
         }
 
         /// <summary>

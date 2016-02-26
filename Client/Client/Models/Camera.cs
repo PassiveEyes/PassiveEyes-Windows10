@@ -79,7 +79,7 @@
         /// Generates a file name for a new file based on the current time and name.
         /// </summary>
         /// <returns>A file name for a new file.</returns>
-        private string GenerateFileName() => $"PassiveEyes-Snapshot-{DateTime.Now.ToFileTimeUtc()}-{this.Name}.jpg";
+        private string GenerateFileName() => $"PassiveEyes-Snapshot-{DateTime.Now.ToFileTimeUtc()}-{this.Name}-{(this.Receiver.Active ? 1 : 0)}.jpg";
 
         /// <summary>
         /// Converts available cameras into <see cref="Camera"/> instances.

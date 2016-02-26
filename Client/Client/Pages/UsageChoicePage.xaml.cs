@@ -21,6 +21,6 @@
         /// <summary>
         /// Launches the <see cref="Controller"/> page.
         /// </summary>
-        private void ControllerChooser_Click(object sender, RoutedEventArgs e) { }
+        private void ViewerChooser_Click(object sender, RoutedEventArgs e) => Frame.Navigate(typeof(ViewerPage));
     }
 }

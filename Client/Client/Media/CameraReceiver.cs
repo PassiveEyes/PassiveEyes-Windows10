@@ -37,6 +37,11 @@
         public AnalysisProcessor CaptureProcessor { get; private set; }
 
         /// <summary>
+        /// Whether this is currently active.
+        /// </summary>
+        public bool Active { get; private set; }
+
+        /// <summary>
         /// Periodically triggers analysis events on the captured input.
         /// </summary>
         private Timer AnalysisTimer;
@@ -118,12 +123,14 @@
 
             if (this.CaptureProcessor.CheckForSignificantImageChanges(await this.GetPixelDataFromCapture()))
             {
+                this.Active = true;
                 this.RemainingActivePhotos = 3;
                 this.AnalysisFrequency = Frequencies.Analysis.Active;
                 this.UploadFrequency = Frequencies.Uploads.Active;
             }
             else
             {
+                this.Active = false;
                 this.AnalysisFrequency = Frequencies.Analysis.Calm;
                 this.UploadFrequency = Frequencies.Uploads.Calm;
             }

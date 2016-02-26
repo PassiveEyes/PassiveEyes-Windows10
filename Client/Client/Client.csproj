@@ -113,6 +113,7 @@
     <Compile Include="Models\FeedModel.cs" />
     <Compile Include="Models\ReorderPageViewModel.cs" />
     <Compile Include="Models\SnapshotModel.cs" />
+    <Compile Include="Models\ViewerViewModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Controls\NullTemplateSelector.cs" />
     <Compile Include="OneDrive\Directory\Children.cs" />

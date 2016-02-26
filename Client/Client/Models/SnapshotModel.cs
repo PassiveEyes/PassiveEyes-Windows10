@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Media.Imaging;
-
-namespace Client.Models
+﻿namespace Client.Models
 {
+    using Client.OneDrive.Directory;
+    using System;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
+    using Windows.UI.Xaml.Media.Imaging;
+
     /// <summary>
     /// Represents a single image along with metadata captured by a camera feed.
     /// </summary>
@@ -102,6 +100,23 @@ namespace Client.Models
             }
         }
         private BitmapImage bitmap;
+
+        /// <summary>
+        /// Asynchronously creates a <see cref="SnapshotModel"/> from a <see cref="Record"/>.
+        /// </summary>
+        /// <param name="record">An individual OneDrive picture.</param>
+        /// <returns>A created model, with its bitmap image downloaded.</returns>
+        public static async Task<SnapshotModel> FromRecord(Record record)
+        {
+            return new SnapshotModel
+            {
+                FeedName = record.Webcam,
+                TimeStamp = record.Timestamp,
+                State = record.Active ? SnapshotState.Alert : SnapshotState.Idle,
+                Bitmap = await record.GenerateBitmap()
+            };
+        }
+
         #region Property Changed Events
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string name = "")

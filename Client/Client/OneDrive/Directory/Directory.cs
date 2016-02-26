@@ -1,5 +1,6 @@
 ﻿namespace Client.OneDrive.Directory
 {
+    using Models;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -13,6 +14,23 @@
         /// Records for each webcam, in chronologically descending order.
         /// </summary>
         public Dictionary<string, List<Record>> Records { get; set; }
+
+        /// <summary>
+        /// Gets the top snapshot models from the records.
+        /// </summary>
+        /// <returns>Top snapshot models from the records.</returns>
+        public async Task<IEnumerable<SnapshotModel>> GetTopSnapshots()
+        {
+            var topRecords = this.Records.Values.Select(records => records.First());
+            var snapshots = new List<SnapshotModel>();
+
+            foreach (var record in topRecords)
+            {
+                snapshots.Add(await SnapshotModel.FromRecord(record));
+            }
+
+            return snapshots;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Directory"/> class.
@@ -29,7 +47,14 @@
 
             var groups = items
                 .GroupBy(item => item.Webcam)
-                .ToDictionary(x => x.Key, x => x.ToList());
+                .ToDictionary(
+                    group => group.Key,
+                    group =>
+                    {
+                        var list = group.ToList();
+                        list.Sort((a, b) => (b.Timestamp - a.Timestamp).Milliseconds);
+                        return list;
+                    });
 
             return new Directory { Records = groups };
         }
