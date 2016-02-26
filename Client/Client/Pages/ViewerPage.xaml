@@ -25,11 +25,12 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <TextBlock Margin="16" Style="{StaticResource HeaderTextBlockStyle}">Feeds</TextBlock>
+                    <TextBlock Margin="16" Style="{StaticResource HeaderTextBlockStyle}">Cameras</TextBlock>
                     <ListView
                         x:Name="FeedList" 
                         Grid.Row="1"
-                        ItemsSource="{x:Bind Path=ViewModel.AvailableFeeds}" SelectionChanged="FeedList_SelectionChanged">
+                        ItemsSource="{x:Bind Path=ViewModel.AvailableFeeds}"
+                        SelectionChanged="FeedList_SelectionChanged">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Margin" Value="0 8" />
@@ -37,7 +38,7 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:FeedModel">
-                                <Grid Tapped="Grid_Tapped">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="12" />
                                         <ColumnDefinition Width="*" />
