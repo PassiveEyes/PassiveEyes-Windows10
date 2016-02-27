@@ -18,3 +18,8 @@ This barely works for the purposes of demos, and needs a re-write. Use at your o
 * The recording page never lets go of your cameras.
 * It will crash occasionally.
 * The viewer page always requests metadata on all photos, so it will refresh gradually slower over time. To resolve this, delete or move folders out of your PassiveEyes folder.
+
+
+### Media
+
+See the [Media repository](https://github.com/PassiveEyes/Media/) for promotional media.
