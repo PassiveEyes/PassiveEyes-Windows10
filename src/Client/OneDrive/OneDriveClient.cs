@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using PassiveEyes.SDK.OneDrive.Storage;
 
 namespace PassiveEyes.SDK.OneDrive
 {
+    /// <summary>
+    /// Utility to interact with the OneDrive API.
+    /// </summary>
     public class OneDriveClient
     {
         /// <summary>
@@ -28,19 +32,28 @@ namespace PassiveEyes.SDK.OneDrive
                 }
             };
         }
-        /// <summary>
-        /// Retrieves the user's <see cref="Drive"/>.
-        /// </summary>
-        /// <returns>The user's <see cref="Drive"/>.</returns>
-        public async Task<Drive> GetDrive() => await this.Client.SendDeserializedGetRequest<Drive>("drive");
 
         /// <summary>
-        /// 
+        /// Retrives the children of an item path.
         /// </summary>
-        /// <param name="itemPath"></param>
+        /// <param name="itemPath">A OneDrive path to retrieve children from.</param>
+        /// <param name="parameters">Additional key-value parameters for the request.</param>
         /// <returns></returns>
-        public async Task<T> GetItemChildren<T>(string itemPath)
-            => await this.Client.SendDeserializedGetRequest<T>($"drive/root:/{itemPath}:/children");
+        public async Task<Item[]> GetItemChildren(string itemPath, IDictionary<string, string> parameters = null)
+            => (await this.Client.SendDeserializedGetRequest<Children>($"drive/root:/{itemPath}:/children", parameters)).Value;
+
+        /// <summary>
+        /// Retrives the children of an item path.
+        /// </summary>
+        /// <param name="itemPath">A OneDrive path to retrieve children from.</param>
+        /// <param name="filter">Stringified filter to search on.</param>
+        /// <returns></returns>
+        public async Task<Item[]> GetItemChildren(string itemPath, string filter)
+            => (await
+                this.Client.SendDeserializedGetRequest<Children>(
+                    $"drive/root:/{itemPath}:/children",
+                    new Dictionary<string, string> { { "filter", filter } }))
+                .Value;
 
         /// <summary>
         /// Uploads an item to the drive.
@@ -50,11 +63,9 @@ namespace PassiveEyes.SDK.OneDrive
         /// <param name="contents">The contents of the item.</param>
         /// <returns></returns>
         public async Task<HttpResponseMessage> PutItem(string folderPath, string fileName, string contents)
-        {
-            return await this.Client.SendPutRequest(
+            => await this.Client.SendPutRequest(
                 this.GenerateOneDrivePath(folderPath, fileName, "content"),
                 contents);
-        }
 
         /// <summary>
         /// Uploads an item to the drive.
@@ -64,11 +75,9 @@ namespace PassiveEyes.SDK.OneDrive
         /// <param name="contents">The contents of the item.</param>
         /// <returns></returns>
         public async Task<HttpResponseMessage> PutItem(string folderPath, string fileName, HttpContent contents)
-        {
-            return await this.Client.SendPutRequest(
+            => await this.Client.SendPutRequest(
                 this.GenerateOneDrivePath(folderPath, fileName, "content"),
                 contents);
-        }
 
         /// <summary>
         /// Retrieves item contents for an item.

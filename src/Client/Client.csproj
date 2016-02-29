@@ -101,6 +101,15 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Media\ActivityState.cs" />
+    <Compile Include="Media\TemporaryCaptureFileStore.cs" />
+    <Compile Include="OneDrive\ConsumerBase.cs" />
+    <Compile Include="OneDrive\FilterGenerator.cs" />
+    <Compile Include="OneDrive\HttpRestClient.cs" />
+    <Compile Include="OneDrive\OneDriveClient.cs" />
+    <Compile Include="OneDrive\OneDriveReader.cs" />
+    <Compile Include="OneDrive\OneDriveWriter.cs" />
+    <Compile Include="OneDrive\Storage\Children.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

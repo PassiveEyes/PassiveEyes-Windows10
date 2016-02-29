@@ -64,7 +64,7 @@ namespace PassiveEyes.SDK
         /// <param name="path">A path after the base path.</param>
         /// <param name="parameters">Additional key-value parameters for the request.</param>
         /// <returns>The response, deserialized to type T.</returns>
-        public async Task<T> SendDeserializedGetRequest<T>(string path = "", Dictionary<string, string> parameters = null)
+        public async Task<T> SendDeserializedGetRequest<T>(string path = "", IDictionary<string, string> parameters = null)
         {
             var request = await this.SendGetRequest(path, parameters);
 
@@ -82,7 +82,7 @@ namespace PassiveEyes.SDK
         /// <param name="path">A path after the base path.</param>
         /// <param name="parameters">Additional key-value parameters for the request.</param>
         /// <returns>The response object.</returns>
-        public async Task<HttpResponseMessage> SendGetRequest(string path = "", Dictionary<string, string> parameters = null)
+        public async Task<HttpResponseMessage> SendGetRequest(string path = "", IDictionary<string, string> parameters = null)
         {
             return await this.Client.GetAsync(this.GenerateRequestUri(path));
         }
